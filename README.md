@@ -1,6 +1,6 @@
 **This is the template README. Please update this with project specific content.**
 
-# compatible-address-lookup-ui-tests
+# compatible-address-lookup-frontend-ui-tests
 
 <SERVICE_NAME> UI journey tests.
 
@@ -11,14 +11,28 @@
 Start Mongo Docker container as follows:
 
 ```bash
-docker run --rm -d -p 27017:27017 --name mongo percona/percona-server-mongodb:6.0
+docker run --rm -d -p 27017:27017 --name mongo percona/percona-server-mongodb:5.0
 ```
 
-Start `<SERVICE_MANAGER_PROFILE>` services as follows:
+If you don't have postgres installed locally you can run it in docker using the following command
 
 ```bash
-sm2 --start <SERVICE_MANAGER_PROFILE>
+docker run --name postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 postgres
 ```
+
+If you are running postgres natively (not in docker) then ensure that the `POSTGRES_USER` and `POSTGRES_PASSWORD` values above, and the `username` and `password` `sm` settings
+below, are set appropriately.
+
+**IMPORTANT**
+To start dependent services locally via service manager (sm2), run the following script:
+
+```bash
+./start_services.sh
+```
+
+NOTE: The db connection parameters for `address-lookup` service - this is to ensure that it connects to the docker container running locally and to the sidecar container when
+running in `jenkins`.
+
 
 ## Tests
 
@@ -28,7 +42,7 @@ Run tests as follows:
 * Argument `<environment>` must be `local`, `dev`, `qa` or `staging`.
 
 ```bash
-sbt clean -Dbrowser="<browser>" -Denvironment="<environment>" test testReport
+./run-tests.sh <browser> <environment>
 ```
 
 ## Scalafmt
