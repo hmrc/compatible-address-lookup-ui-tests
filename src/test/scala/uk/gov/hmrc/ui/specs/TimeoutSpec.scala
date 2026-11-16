@@ -42,7 +42,9 @@ class TimeoutSpec extends BaseSpec {
 
     Then("When I click on sign out I'm sent to a relative URL correctly")
     TimeoutDialoguePartial().clickSignOut()
-    assertThat(webDriver.getCurrentUrl).isEqualTo(s"${TestConfig.url("compatible-address-lookup-frontend")}$timeoutRelativePath")
+    assertThat(webDriver.getCurrentUrl).isEqualTo(
+      s"${TestConfig.url("compatible-address-lookup-frontend")}$timeoutRelativePath"
+    )
   }
 
   Scenario("Timeout URL can not be an absolute URL") {
